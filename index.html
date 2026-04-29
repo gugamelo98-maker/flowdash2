@@ -390,8 +390,10 @@ function esc(v){return(v??'').toString().replace(/[<>&"]/g,c=>({'<':'&lt;','>':'
 
 async function req(path,opts={}){
   const r=await fetch(SB+path,{headers:H,...opts});
-  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||r.status)}
-  return r.status===204?null:r.json();
+  const text=await r.text();
+  const data=text?JSON.parse(text):null;
+  if(!r.ok)throw new Error(data?.message||r.status);
+  return data;
 }
 
 // Parse date dd/mm/yyyy to comparable string
