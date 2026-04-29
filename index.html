@@ -597,7 +597,7 @@ async function saveClient(){
   if(senha.length<6){alert('Senha mínima de 6 caracteres.');return}
   msgEl.textContent='Salvando...';msgEl.className='msg';msgEl.classList.remove('hidden');
   try{
-    await req('/rest/v1/usuarios',{method:'POST',body:JSON.stringify({nome,email,senha,campanha,role:'cliente'})});
+    await req('/rest/v1/usuarios',{method:'POST',headers:{...H,'Prefer':'return=minimal'},body:JSON.stringify({nome,email,senha,campanha,role:'cliente'})});
     msgEl.textContent='✓ Acesso criado com sucesso!';msgEl.className='msg msg-ok';
     document.getElementById('cName').value='';
     document.getElementById('cEmail').value='';
